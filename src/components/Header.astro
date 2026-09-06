@@ -1,0 +1,50 @@
+---
+import Logo from "./Logo.astro";
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <Logo /><button
+      class="menu-toggle"
+      aria-expanded="false"
+      aria-controls="navigation">Menu <span aria-hidden="true">☰</span></button
+    ><nav id="navigation" aria-label="Main navigation">
+      <a href="/#how-it-works">How it works</a><a href="/sample-opportunity/"
+        >Sample opportunity</a
+      ><a href="/#pilot">The pilot</a><a href="/about/">About</a><a
+        class="nav-contact"
+        href="/contact/">Contact <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</header>
+<script>
+  const button = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const nav = document.querySelector<HTMLElement>("#navigation");
+  if (button && nav) {
+    document.documentElement.classList.add("has-js");
+    const close = () => {
+      button.setAttribute("aria-expanded", "false");
+      nav.classList.remove("is-open");
+    };
+    button.addEventListener("click", () => {
+      const open = button.getAttribute("aria-expanded") !== "true";
+      button.setAttribute("aria-expanded", String(open));
+      nav.classList.toggle("is-open", open);
+    });
+    nav.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement).closest("a")) close();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (
+        event.key === "Escape" &&
+        button.getAttribute("aria-expanded") === "true"
+      ) {
+        close();
+        button.focus();
+      }
+    });
+    document.addEventListener("click", (event) => {
+      if (!(event.target as HTMLElement).closest(".site-header")) close();
+    });
+  }
+</script>

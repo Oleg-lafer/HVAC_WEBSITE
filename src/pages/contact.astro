@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site.js";
+---
+
+<BaseLayout
+  title="Discuss the founding contractor pilot"
+  description="Discuss Atlas’s four-week founding contractor pilot for UK commercial HVAC businesses. Three researched opportunities each week, personally reviewed, for £199 total."
+  ><div class="page-hero">
+    <div class="container">
+      <a class="breadcrumb" href="/">← Back to Atlas</a><div class="eyebrow">
+        Let’s talk about your next project
+      </div><h1>Start with<br />your business.</h1><p class="lead">
+        The right opportunity depends on what you do, where you work and the
+        projects you want to take on.
+      </p>
+    </div>
+  </div><section class="section">
+    <div class="container article-grid">
+      <div class="contact-panel">
+        <h2>Discuss the founding pilot</h2><p class="muted">
+          Tell us about your services, geographical coverage and typical project
+          size. That gives us a useful starting point for a conversation about
+          the pilot.
+        </p>{
+          site.email ? (
+            <a
+              class="button button-primary contact-email"
+              href={`mailto:${site.email}?subject=${encodeURIComponent("Atlas founding contractor pilot")}`}
+            >
+              Email {site.email} <span aria-hidden="true">↗</span>
+            </a>
+          ) : (
+            <div class="notice">
+              <>
+                <strong>Contact details are being finalised.</strong>
+                <br />
+              </>
+              This is a local preview. The business email will be added before
+              launch, so pilot enquiries are not being collected here yet.
+            </div>
+          )
+        }<a class="text-link" href="/sample-opportunity/"
+          >Explore the sample in the meantime <span aria-hidden="true">↗</span
+          ></a>
+      </div><aside class="sidebar">
+        <div class="eyebrow">Founding contractor pilot</div><h2>
+          {site.pilotPrice}
+        </h2><ul class="checks">
+          <li>Three researched opportunities each week</li><li>
+            Every opportunity personally reviewed
+          </li><li>One deeper project investigation during the pilot</li><li>
+            No long-term commitment
+          </li><li>Continue only if useful</li>
+        </ul>
+      </aside>
+    </div>
+  </section></BaseLayout
+>

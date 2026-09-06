@@ -1,0 +1,183 @@
+---
+import path from "../data/uk-path.json";
+const locations = [
+  ["Inverness", -4.22, 57.48],
+  ["Aberdeen", -2.09, 57.15],
+  ["Dundee", -2.97, 56.46],
+  ["Glasgow", -4.25, 55.86],
+  ["Edinburgh", -3.19, 55.95],
+  ["Newcastle", -1.61, 54.98],
+  ["Carlisle", -2.94, 54.89],
+  ["York", -1.08, 53.96],
+  ["Leeds", -1.55, 53.8],
+  ["Liverpool", -2.98, 53.41],
+  ["Manchester", -2.24, 53.48],
+  ["Sheffield", -1.47, 53.38],
+  ["Nottingham", -1.15, 52.95],
+  ["Birmingham", -1.9, 52.49],
+  ["Leicester", -1.13, 52.64],
+  ["Norwich", 1.3, 52.63],
+  ["Cambridge", 0.12, 52.21],
+  ["Oxford", -1.26, 51.75],
+  ["Cardiff", -3.18, 51.48],
+  ["Swansea", -3.94, 51.62],
+  ["Bristol", -2.59, 51.45],
+  ["South Croydon", -0.09, 51.35],
+  ["Southampton", -1.4, 50.91],
+  ["Exeter", -3.53, 50.72],
+];
+const demos = {
+  Manchester: [
+    "Hotel refurbishment",
+    "£18m illustrative project",
+    "Potential mechanical package",
+  ],
+  Birmingham: [
+    "Care home expansion",
+    "Illustrative planning-stage project",
+    "Heating and ventilation review",
+  ],
+  "South Croydon": [
+    "Hotel restoration",
+    "£30m illustrative project",
+    "Potential heating replacement",
+  ],
+  Edinburgh: [
+    "Office refurbishment",
+    "Illustrative commercial project",
+    "Building services assessment",
+  ],
+};
+---
+
+<div class="map-panel" aria-label="Illustrative UK commercial project map">
+  <div class="map-heading">
+    <span>UK OPPORTUNITY MAP</span><span>ILLUSTRATIVE PROJECTS</span>
+  </div><div class="map-stage">
+    <svg
+      class="uk-map"
+      viewBox="0 0 470 655"
+      role="group"
+      aria-label="United Kingdom with illustrative opportunity markers"
+      ><path class="uk-land" d={path}></path><text
+        class="map-label"
+        x="149"
+        y="224">SCOTLAND</text
+      ><text class="map-label" x="294" y="418">ENGLAND</text><text
+        class="map-label"
+        x="126"
+        y="494">WALES</text
+      ><text class="map-label" x="4" y="315">NORTHERN</text><text
+        class="map-label"
+        x="4"
+        y="329">IRELAND</text
+      >{
+        locations.map(([city, lon, lat]) => {
+          const x = (Number(lon) + 8.8) * 39 + 30,
+            y = (59.7 - Number(lat)) * 65 + 15;
+          const demo = demos[city];
+          return demo ? (
+            <g
+              class="map-marker"
+              tabindex="0"
+              role="button"
+              aria-label={`Preview illustrative ${demo[0].toLowerCase()} in ${city}`}
+              aria-pressed="false"
+              aria-controls="map-preview"
+              data-city={city}
+              data-title={demo[0]}
+              data-value={demo[1]}
+              data-scope={demo[2]}
+            >
+              {city === "Manchester" && (
+                <circle class="map-ring" cx={x} cy={y} r="6" />
+              )}
+              <circle class="map-hit" cx={x} cy={y} r="19" />
+              <circle cx={x} cy={y} r="6" />
+            </g>
+          ) : (
+            <circle
+              cx={x}
+              cy={y}
+              r="3.6"
+              fill="#d74c43"
+              stroke="#f7f7f5"
+              stroke-width="1.6"
+              aria-hidden="true"
+            />
+          );
+        })
+      }</svg>
+  </div><div class="map-preview" id="map-preview" hidden>
+    <button class="preview-close" aria-label="Close opportunity preview"
+      >×</button
+    ><div class="preview-label">Illustrative opportunity</div><h3
+      data-preview-title
+    >
+    </h3><p data-preview-city></p><p data-preview-value></p><p
+      data-preview-scope
+    >
+    </p>
+  </div><div class="map-key">
+    <i></i><span>Commercial project signals</span><span aria-hidden="true"
+      >·</span
+    ><span>Explore the larger markers</span>
+  </div>
+</div>
+<script>
+  const panel = document.querySelector<HTMLElement>(".map-panel");
+  if (panel) {
+    const preview = panel.querySelector<HTMLElement>(".map-preview")!;
+    const markers = Array.from(
+      panel.querySelectorAll<SVGGElement>(".map-marker"),
+    );
+    let active: SVGGElement | null = null;
+    const close = (restore = false) => {
+      preview.hidden = true;
+      markers.forEach((m) => m.setAttribute("aria-pressed", "false"));
+      if (restore) active?.focus();
+      active = null;
+    };
+    const show = (marker: SVGGElement) => {
+      active = marker;
+      markers.forEach((m) =>
+        m.setAttribute("aria-pressed", String(m === marker)),
+      );
+      for (const key of ["title", "city", "value", "scope"])
+        preview.querySelector(`[data-preview-${key}]`)!.textContent =
+          marker.dataset[key] || "";
+      preview.hidden = false;
+    };
+    markers.forEach((marker) => {
+      marker.addEventListener("mouseenter", () => show(marker));
+      marker.addEventListener("focus", () => show(marker));
+      marker.addEventListener("click", () => show(marker));
+      marker.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          show(marker);
+        }
+      });
+    });
+    panel
+      .querySelector(".preview-close")!
+      .addEventListener("click", () => close(true));
+    panel.addEventListener("mouseleave", () => {
+      if (!panel.contains(document.activeElement)) close();
+    });
+    panel.addEventListener("focusout", () => {
+      setTimeout(() => {
+        if (!panel.contains(document.activeElement)) close();
+      }, 0);
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !preview.hidden) {
+        event.preventDefault();
+        close(true);
+      }
+    });
+    document.addEventListener("click", (event) => {
+      if (!panel.contains(event.target as Node)) close();
+    });
+  }
+</script>

@@ -1,0 +1,43 @@
+<section class="section process" id="how-it-works">
+  <div class="container">
+    <div class="eyebrow">How it works</div><h2>
+      From public signal to<br />commercial opportunity.
+    </h2><div class="steps">
+      {
+        [
+          [
+            "01",
+            "Public project signal",
+            "A planning application, project announcement or reported development.",
+          ],
+          [
+            "02",
+            "Research & qualification",
+            "We investigate the project, its timing and the organisations involved.",
+          ],
+          [
+            "03",
+            "HVAC relevance",
+            "We assess the potential fit for your services, capacity and coverage.",
+          ],
+          [
+            "04",
+            "Delivered with direction",
+            "You receive a concise opportunity brief and a clear next action.",
+          ],
+        ].map(([number, title, copy], i) => (
+          <div class="step">
+            <>
+              <div class="step-number">
+                <span>{number}</span>
+                {i < 3 && <span aria-hidden="true">→</span>}
+              </div>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
