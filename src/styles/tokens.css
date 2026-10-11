@@ -6,7 +6,7 @@
   --white: #fff;
   --muted: #59636e;
   --line: #dce0e2;
-  --container: 1180px;
+  --container: 1400px;
   --radius: 4px;
   --space: clamp(64px, 8vw, 110px);
   font-family: "Manrope Variable", sans-serif;

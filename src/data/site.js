@@ -1,8 +1,13 @@
+import { markets } from "./markets.js";
+
 export const site = {
   name: "Atlas",
-  descriptor: "Project Intelligence for UK HVAC Contractors",
+  descriptor: markets.uk.descriptor,
   url: process.env.SITE_URL || "",
   email: process.env.CONTACT_EMAIL || "",
-  pilotPrice: "£199 total — 4-week pilot",
 };
-export const routes = ["/", "/sample-opportunity/", "/about/", "/contact/"];
+export const routes = [
+  "/", "/sample-opportunity/", "/about/", "/contact/",
+  "/cz/", "/cz/sample-opportunity/", "/cz/about/", "/cz/contact/",
+  "/de/", "/de/sample-opportunity/", "/de/about/", "/de/contact/",
+];

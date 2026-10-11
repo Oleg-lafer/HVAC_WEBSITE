@@ -1,74 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../components/Hero.astro";
-import OpportunityCard from "../components/OpportunityCard.astro";
-import HowItWorks from "../components/HowItWorks.astro";
-import PilotSection from "../components/PilotSection.astro";
-import FounderSection from "../components/FounderSection.astro";
-import FinalCTA from "../components/FinalCTA.astro";
+import MarketHome from "../components/MarketHome.astro";
+import { markets } from "../data/markets.js";
 ---
 
 <BaseLayout
   title="Commercial HVAC projects worth pursuing"
   description="Atlas researches UK commercial HVAC project opportunities, with clear scope, procurement signals and practical next actions. Explore the founding contractor pilot."
-  ><Hero />
-  <section class="section white">
-    <div class="container">
-      <div class="section-heading">
-        <div>
-          <div class="eyebrow">What you receive</div><h2>
-            Less searching.<br />More worth pursuing.
-          </h2>
-        </div><p>
-          A small number of relevant opportunities, with the context you need to
-          decide where to spend your time.
-        </p>
-      </div><div class="three-columns">
-        {
-          [
-            [
-              "01",
-              "Qualified projects",
-              "Commercial projects selected for their potential HVAC relevance and fit with your business.",
-            ],
-            [
-              "02",
-              "Project intelligence",
-              "Timing, potential scope, organisations involved and procurement signals, brought together in one clear brief.",
-            ],
-            [
-              "03",
-              "Your next action",
-              "A practical recommendation for what to investigate, who to approach and what still needs confirming.",
-            ],
-          ].map(([n, title, copy]) => (
-            <article class="benefit">
-              <>
-                <span class="number">{n} /</span>
-                <h3>{title}</h3>
-                <p>{copy}</p>
-              </>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-  <HowItWorks /><section class="section" id="sample">
-    <div class="container sample-grid">
-      <div class="sample-copy">
-        <div class="eyebrow">See the intelligence</div><h2>
-          A project signal.<br />A clearer way in.
-        </h2><p>
-          What makes a project worth a closer look? See how an opportunity brief
-          connects potential HVAC scope with the questions that matter
-          commercially.
-        </p><p>
-          This illustrative hotel restoration shows the format and depth you can
-          expect.
-        </p><a class="text-link" href="/sample-opportunity/"
-          >View full sample report <span aria-hidden="true">↗</span></a>
-      </div><OpportunityCard />
-    </div>
-  </section><PilotSection /><FounderSection /><FinalCTA />
+  ><MarketHome market={markets.uk} />
 </BaseLayout>
